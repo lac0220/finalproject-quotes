@@ -12,12 +12,14 @@
 
 ## Setup
 
+Used [Gulp.js](https://gulpjs.com) for implementation
+
 To run this project locally:
 
 ```
 $ cd ../lorem
-$ npm install
-$ npm start
+$ npm install gulp
+$ gulp watch
 ```
 ## Version
 
