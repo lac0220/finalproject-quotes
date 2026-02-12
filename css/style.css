@@ -80,6 +80,11 @@ nav ul:nth-child(3) li:nth-child(4) ul li:nth-child(2) a:hover {
 nav ul:nth-child(3) li:nth-child(4) ul:hover li {
   display: block;
 }
+nav ul:nth-child(3) li:nth-child(4) ul li:nth-child(2) a::before {
+  content: "• ";
+  margin-right: 2px;
+  color: white;
+}
 
 @media only screen and (max-width: 1550px) {
   nav .navbar-logo {
@@ -173,7 +178,7 @@ nav ul:nth-child(3) li:nth-child(4) ul:hover li {
   }
   nav ul:nth-child(3) li:nth-child(4) ul li {
     padding: 0;
-    left: 22%;
+    left: 15%;
   }
   nav ul:nth-child(3) li:nth-child(4) ul li a {
     padding: 3px 12px 3px 12px;
