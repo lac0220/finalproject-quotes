@@ -32,7 +32,6 @@ window.addEventListener("load", () => {
      sideNav.classList.remove("active");
  }
  navClose.addEventListener("click", mobileNavClose);
-
 /******/ })()
 ;
 //# sourceMappingURL=script.js.map

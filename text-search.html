@@ -22,9 +22,7 @@
                     <li><a href="daily-quotes.html">Daily Quote</a></li>
                     <li>
                         <ul>
-                            <li>
-                                <button>Search Quotes<i class="fa-solid fa-magnifying-glass"></i></button>
-                            </li>
+                            <li><button>Search Quotes<i class="fa-solid fa-magnifying-glass"></i></button></li>
                             <li>
                                 <a href="categories.html">Categories</a>
                                 <a href="authors.html">Authors</a>
@@ -39,67 +37,89 @@
         </header>
         <section class="text-search">
             <h1>Text Search</h1>
-            <input type="text" name="name" id="text-search-bar" placeholder="Search for quotations here..." autofocus <input/>
+            <input type="text" name="name" id="text-search-bar" placeholder="Search for quotations here..." autofocus />
             <img id="text-search-image" src="./img/search/text_search.webp" alt="Text search">
             <div id="text-search"></div>
         </section>
-        <div class="loader-animation"</div>
+        <div class="loader-animation"></div>
         <script>
-            //generates text search from API
             "use strict";
+
             const textSearch = document.getElementById('text-search');
-            document.getElementById("text-search").style.display = "none";
+            textSearch.style.display = "none";
+
             const searchBar = document.getElementById('text-search-bar');
-            
+            const searchImage = document.getElementById("text-search-image");
+
             let allQuotes = [];
 
-            //fetching the API data
-            const loadQuotes = async () => {     
+            // Fetch from dummyjson
+            const loadQuotes = async () => {
                 try {
-                    const res = await fetch('https://type.fit/api/quotes');
-                    allQuotes = await res.json();
-                    displayQuotes(allQuotes);
+                    const res = await fetch('https://dummyjson.com/quotes?limit=1454');
+                    const data = await res.json();
+                    allQuotes = data.quotes;
                 } catch (err) {
-                    alert("The server is temporarily unable to service your request")
+                    alert("The server is temporarily unable to service your request");
                 }
             };
+
             loadQuotes();
 
-            const displayQuotes = (objects) => {
-                const htmlString = objects
-                    .map((object) => {
-                        //rename author if = null
-                        if (object.author == null) {
-                            object.author = "Anonymous author";     
-                        }
+            // Highlight function
+            const highlightMatch = (text, keyword) => {
+                const regex = new RegExp(`(${keyword})`, "gi");
+                return text.replace(regex, `<span class="highlight">$1</span>`);
+            };
+
+            const displayQuotes = (quotes, keyword) => {
+
+                if (quotes.length === 0) {
+                    textSearch.innerHTML = `<p class="no-result">No keyword found</p>`;
+                    return;
+                }
+
+                const htmlString = quotes
+                    .map((quoteObj) => {
+
+                        const author = quoteObj.author || "Anonymous author";
+
+                        const highlightedQuote = highlightMatch(quoteObj.quote, keyword);
+
                         return `
                             <li>
-                                <h3>"${object.text}"</h3>
-                                <p>- ${object.author}</p>
+                                <h4>"${highlightedQuote}"</h4>
+                                <p>- ${author}</p>
                             </li>
                         `;
                     })
                     .join('');
+
                 textSearch.innerHTML = htmlString;
             };
 
+            // Live search
             searchBar.addEventListener('keyup', (e) => {
-                const searchString = e.target.value.toLowerCase();
-                const filteredText = allQuotes.filter((object) => {
-                    //remove image after pressing backspace
-                    if (e.which === 8) {
-                        return 			
-                            document.getElementById("text-search-image").style.display = "none";    
-                        }
-                    else {
-                        return (object.text.toLowerCase().includes(searchString));
-                    }
-                });
-                document.getElementById("text-search").style.display = "block";
-                document.getElementById("text-search-image").style.display = "none";
 
-                displayQuotes(filteredText);
-            }); 
+                const searchString = e.target.value.trim().toLowerCase();
+
+                // If input empty → hide everything
+                if (searchString === "") {
+                    textSearch.style.display = "none";
+                    searchImage.style.display = "block";
+                    textSearch.innerHTML = "";
+                    return;
+                }
+
+                const filteredText = allQuotes.filter((quoteObj) =>
+                    quoteObj.quote.toLowerCase().includes(searchString)
+                );
+
+                textSearch.style.display = "block";
+                searchImage.style.display = "none";
+
+                displayQuotes(filteredText, searchString);
+            });
         </script>
     </body>
 </html>

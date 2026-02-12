@@ -22,9 +22,7 @@
                     <li><a href="daily-quotes.html">Daily Quote</a></li>
                     <li>
                         <ul>
-                            <li>
-                                <button>Search Quotes<i class="fa-solid fa-magnifying-glass"></i></button>
-                            </li>
+                            <li><button>Search Quotes<i class="fa-solid fa-magnifying-glass"></i></button></li>
                             <li>
                                 <a href="categories.html">Categories</a>
                                 <a href="authors.html">Authors</a>
@@ -39,65 +37,116 @@
         </header>
         <section class="authors">
             <h1>Authors</h1>
-            <input type="text" name="name" id="author-search-bar" class="authors-search-bar" placeholder="Search for authors here..." autofocus <input/>
+            <input type="text" name="name" id="author-search-bar" class="authors-search-bar" placeholder="Search for authors here..." autofocus />
             <img id="author-search-image" src="./img/search/author_search.webp" alt="Author">
             <div id="author-search" class="authors-search"></div>
         </section>
-        <div class="loader-animation"</div>
+        <div class="loader-animation"></div>
         <script>
-            //generates author search from API
             "use strict";
-            const authorSearch = document.getElementById('author-search');
-            document.getElementById("author-search").style.display = "none";
-            const searchBar = document.getElementById('author-search-bar');
 
+            const authorSearch = document.getElementById('author-search');
+            authorSearch.style.display = "none";
+
+            const searchBar = document.getElementById('author-search-bar');
+            const searchImage = document.getElementById("author-search-image");
+
+            let allQuotes = [];
             let allAuthors = [];
 
-            //fetching the API data
+            // Load data
             const loadAuthors = async () => {    
                 try {
-                    const res = await fetch('https://type.fit/api/quotes');
-                    allAuthors = await res.json();
-                    displayAuthors(allAuthors);
+                    const res = await fetch('https://dummyjson.com/quotes?limit=1454');
+                    const data = await res.json();
+
+                    allQuotes = data.quotes;
+
+                    const authors = allQuotes.map(q => q.author);
+                    allAuthors = [...new Set(authors)].sort();
+
                 } catch (err) {
-                    alert("The server is temporarily unable to service your request")
+                    alert("The server is temporarily unable to service your request");
                 }
             };
+
             loadAuthors();
 
-            const displayAuthors = (objects) => {
-                const htmlString = objects
-                    .map((object) => {
-                        //rename author if = null
-                        if (object.author == null) {
-                            object.author = "Anonymous author";  
-                        } 
+            const highlightMatch = (text, keyword) => {
+                const regex = new RegExp(`(${keyword})`, "gi");
+                return text.replace(regex, `<span class="highlight">$1</span>`);
+            };
+
+            // Display authors
+            const displayAuthors = (authors, keyword) => {
+
+                if (authors.length === 0) {
+                    authorSearch.innerHTML = `<p class="no-result">No author found</p>`;
+                    return;
+                }
+
+                const htmlString = authors
+                    .map((author) => {
+                        const highlighted = highlightMatch(author, keyword);
+
                         return `
-                            <li>
-                                <h3>"${object.text}"</h3>
-                                <p>- ${object.author}</p>
+                            <li data-author="${author}">
+                                <h3>${highlighted}</h3>
                             </li>
                         `;
                     })
                     .join('');
+
                 authorSearch.innerHTML = htmlString;
             };
 
+            // Show quotes for selected author
+            authorSearch.addEventListener('click', (e) => {
+                // Find the closest li that has a data-author attribute
+                const li = e.target.closest("li[data-author]");
+                if (!li) return; // exit if clicked element is not an author
+
+                const authorName = li.getAttribute("data-author");
+
+                const filteredQuotes = allQuotes.filter(
+                    quote => quote.author === authorName
+                );
+
+                const htmlString = filteredQuotes
+                    .map(q => `
+                        <li>
+                            <h4>"${q.quote}"</h4>
+                        </li>
+                    `)
+                    .join('');
+
+                authorSearch.innerHTML = `
+                    <h2>Quotes by ${authorName}:</h2>
+                    ${htmlString}
+                `;
+            });
+
+            // Live search
             searchBar.addEventListener('keyup', (e) => {
-                const searchString = e.target.value.toLowerCase();
-                const filteredAuthors = allAuthors.filter((object) => {
-                    //remove image after pressing backspace
-                    if (e.which === 8) {	
-                        document.getElementById("author-search-image").style.display = "none"; 
-                    }
-                    else {
-                        return (object.author.toLowerCase().includes(searchString));
-                    }     
-                });
-                document.getElementById("author-search").style.display = "block";
-                document.getElementById("author-search-image").style.display = "none";
-            
-                displayAuthors(filteredAuthors);
+
+                const searchString = e.target.value.trim().toLowerCase();
+
+                // If empty → hide everything
+                if (searchString === "") {
+                    authorSearch.style.display = "none";
+                    searchImage.style.display = "block";
+                    authorSearch.innerHTML = "";
+                    return;
+                }
+
+                const filteredAuthors = allAuthors.filter((author) =>
+                    author.toLowerCase().includes(searchString)
+                );
+
+                authorSearch.style.display = "block";
+                searchImage.style.display = "none";
+
+                displayAuthors(filteredAuthors, searchString);
             });
         </script>
     </body>

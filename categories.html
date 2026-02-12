@@ -22,9 +22,7 @@
                     <li><a href="daily-quotes.html">Daily Quote</a></li>
                     <li>
                         <ul>
-                            <li>
-                                <button>Search Quotes<i class="fa-solid fa-magnifying-glass"></i></button>
-                            </li>
+                            <li><button>Search Quotes<i class="fa-solid fa-magnifying-glass"></i></button></li>
                             <li>
                                 <a href="categories.html">Categories</a>
                                 <a href="authors.html">Authors</a>
@@ -42,18 +40,16 @@
             <ul>
                 <li>
                     <img src="./img/search/category_search.webp"  alt="Categories search">
-                    <div>
-                        <h2>These categories help you to find the quote that best suits you</h2>
-                    </div>
+                    <div><h2>These categories help you to find the quote that best suits you</h2></div>
                 </li>
             </ul>
             <button class="categories-button">LOVE</button>
             <div class="categories-search">
                 <div id="categories-search__love"></div>
             </div>
-            <button class="categories-button">FORGIVENESS</button>
+            <button class="categories-button">LIFE</button>
             <div class="categories-search">
-                <div id="categories-search__forgiveness"></div>
+                <div id="categories-search__life"></div>
             </div>
             <button class="categories-button">SUCCESS</button>
             <div class="categories-search">
@@ -68,146 +64,82 @@
                 <div id="categories-search__health"></div>
             </div>
         </section>
-        <div class="loader-animation"</div>
+        <div class="loader-animation"></div>
         <script>
-            //generates categories from API by using keywords
             "use strict";
-            const categoriesSearchLove = document.getElementById('categories-search__love');
-            const categoriesSearchForgiveness = document.getElementById('categories-search__forgiveness');
-            const categoriesSearchSuccess = document.getElementById('categories-search__success');
-            const categoriesSearchFailure = document.getElementById('categories-search__failure');
-            const categoriesSearchHealth = document.getElementById('categories-search__health');
+
+            const categories = {
+                love: document.getElementById('categories-search__love'),
+                life: document.getElementById('categories-search__life'),
+                success: document.getElementById('categories-search__success'),
+                failure: document.getElementById('categories-search__failure'),
+                health: document.getElementById('categories-search__health')
+            };
 
             let allQuotes = [];
 
-            //fetching the API data
-            const loadQuotes = async () => {    
+            // Fetch all quotes once
+            const loadQuotes = async () => {
                 try {
-                    const res = await fetch('https://type.fit/api/quotes');
-                    allQuotes = await res.json();
-                    displayQuotesLove(allQuotes);
-                    displayQuotesForgiveness(allQuotes);
-                    displayQuotesSuccess(allQuotes);
-                    displayQuotesFailure(allQuotes);
-                    displayQuotesHealth(allQuotes);
+                    const res = await fetch('https://dummyjson.com/quotes?limit=1454');
+                    const data = await res.json();
+                    allQuotes = data.quotes;
                 } catch (err) {
-                    alert("The server is temporarily unable to service your request")
+                    alert("Failed to load quotes from server.");
                 }
             };
+
             loadQuotes();
 
-            const displayQuotesLove = (objects) => {
-                const theKeyWord  = "Love";
-                const htmlString = objects
-                    .map((object) => {
-                        //rename author if = null
-                        if (object.author == null) {
-                            object.author = "Anonymous author";  
-                        } 
-                        //search for specific keyword between quotes
-                        if (object.text.indexOf(theKeyWord) !== -1)   
-                        return `
-                            <li>
-                                <h3>"${object.text}"</h3>
-                                <p>- ${object.author}</p>
-                            </li>
-                        `;
-                    })
-                    .join('');
-                categoriesSearchLove.innerHTML = htmlString;
-            };
+            // Filter quotes by keyword
+            const filterCategory = (keyword, container) => {
 
-            const displayQuotesForgiveness = (objects) => {
-                const theKeyWord1  = "forgive";
-                const htmlString = objects
-                    .map((object) => {
-                        if (object.author == null) {
-                            object.author = "Anonymous author";
-                        } 
-                        if (object.text.indexOf(theKeyWord1) !== -1)   
-                        return `
-                            <li>
-                                <h3>"${object.text}"</h3>
-                                <p>- ${object.author}</p>
-                            </li>
-                        `;
-                    })
-                    .join('');
-                categoriesSearchForgiveness.innerHTML = htmlString;
-            };
-            
-            const displayQuotesSuccess = (objects) => {
-                const theKeyWord2  = "success";
-                const htmlString = objects
-                    .map((object) => {
-                        if (object.author == null) {
-                            object.author = "Anonymous author";
-                        } 
-                        if (object.text.indexOf(theKeyWord2) !== -1)   
-                        return `
-                            <li>
-                                <h3>"${object.text}"</h3>
-                                <p>- ${object.author}</p>
-                            </li>
-                        `;
-                    })
-                    .join('');
-                categoriesSearchSuccess.innerHTML = htmlString;
-            };
+                container.innerHTML = "<p>Loading...</p>";
 
-            const displayQuotesFailure = (objects) => {
-                const theKeyWord3  = "failure";
-                const htmlString = objects
-                    .map((object) => {
-                        if (object.author == null) {
-                            object.author = "Anonymous author";
-                        } 
-                        if (object.text.indexOf(theKeyWord3) !== -1)   
-                        return `
-                            <li>
-                                <h3>"${object.text}"</h3>
-                                <p>- ${object.author}</p>
-                            </li>
-                        `;
-                    })
-                    .join('');
-                categoriesSearchFailure.innerHTML = htmlString;
-            };
+                const filtered = allQuotes.filter(q =>
+                    q.quote.toLowerCase().includes(keyword.toLowerCase())
+                );
 
-            const displayQuotesHealth = (objects) => {
-                const theKeyWord4  = "health";
-                const htmlString = objects
-                    .map((object) => {
-                        if (object.author == null) {
-                            object.author = "Anonymous author";
-                        } 
-                        if( object.text.indexOf(theKeyWord4) !== -1)   
-                        return `
-                            <li>
-                                <h3>"${object.text}"</h3>
-                                <p>- ${object.author}</p>
-                            </li>
-                        `;
-                    })
+                if (filtered.length === 0) {
+                    container.innerHTML = "<p>No quotes found for this category.</p>";
+                    return;
+                }
+
+                const htmlString = filtered.slice(0, 10) // limit results
+                    .map(q => `
+                        <li>
+                            <h3>"${q.quote}"</h3>
+                            <p>- ${q.author}</p>
+                        </li>
+                    `)
                     .join('');
-                categoriesSearchHealth.innerHTML = htmlString;
+
+                container.innerHTML = htmlString;
             };
         </script>
-        <script>    
-            // hiding and showing the panel
+        <script>
             "use strict";
+
             const categoriesPanel = document.getElementsByClassName("categories-button");
 
-            let i;
-            for (i = 0; i < categoriesPanel.length; i++) {
+            for (let i = 0; i < categoriesPanel.length; i++) {
+
                 categoriesPanel[i].addEventListener("click", function() {
+
                     this.classList.toggle("active-categories__button");
-                    
+
                     let panel = this.nextElementSibling;
+                    let keyword = this.innerText.toLowerCase();
+                    let container = panel.querySelector("div");
+
                     if (panel.style.display === "block") {
                         panel.style.display = "none";
                     } else {
                         panel.style.display = "block";
+
+                        if (container.innerHTML.trim() === "") {
+                            filterCategory(keyword, container);
+                        }
                     }
                 });
             }
