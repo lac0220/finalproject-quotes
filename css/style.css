@@ -172,8 +172,8 @@ nav ul:nth-child(3) li:nth-child(4) ul:hover li {
     font-size: 1.2rem;
   }
   nav ul:nth-child(3) li:nth-child(4) ul li {
-    left: 25%;
     padding: 0;
+    left: 22%;
   }
   nav ul:nth-child(3) li:nth-child(4) ul li a {
     padding: 3px 12px 3px 12px;
@@ -201,9 +201,6 @@ nav ul:nth-child(3) li:nth-child(4) ul:hover li {
   }
   nav ul:nth-child(3) li:nth-child(4) ul button:hover {
     color: white;
-  }
-  nav ul:nth-child(3) li:nth-child(4) ul li:nth-child(2) {
-    left: 15%;
   }
   nav ul:nth-child(3) li:nth-child(4) ul li:nth-child(2) a {
     padding: 3px 5px 3px 10px;
@@ -1123,6 +1120,7 @@ footer ul:nth-child(3) li:nth-child(1) i {
 }
 @media only screen and (max-width: 820px) {
   .categories ul li div h2 {
+    font-size: 1.2rem;
     line-height: 1.3rem;
   }
   .categories-button {
@@ -1151,7 +1149,7 @@ footer ul:nth-child(3) li:nth-child(1) i {
 @media only screen and (max-width: 500px) {
   .categories ul li div h2 {
     padding: 5px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
   .categories-button {
     font-size: 1.1rem;
@@ -1270,6 +1268,9 @@ footer ul:nth-child(3) li:nth-child(1) i {
 @media only screen and (max-width: 500px) {
   .authors-search-bar, .text-search #text-search-bar {
     font-size: 1rem;
+  }
+  .authors-search h2, .text-search #text-search h2 {
+    font-size: 1.1rem;
   }
   .authors-search li h3:hover, .text-search #text-search li h3:hover {
     color: white;
