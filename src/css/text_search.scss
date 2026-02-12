@@ -11,10 +11,6 @@
     #text-search {
         @extend .authors-search;
         li {
-            h3 {
-                color: lightgreen;
-            }
-        
             p {
                 color: $font-color;
             }

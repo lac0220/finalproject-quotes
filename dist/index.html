@@ -22,9 +22,7 @@
                     <li><a href="daily-quotes.html">Daily Quote</a></li>
                     <li>
                         <ul>
-                            <li>
-                                <button>Search Quotes<i class="fa-solid fa-magnifying-glass"></i></button>
-                            </li>
+                            <li><button>Search Quotes<i class="fa-solid fa-magnifying-glass"></i></button></li>
                             <li>
                                 <a href="categories.html">Categories</a>
                                 <a href="authors.html">Authors</a>
@@ -91,7 +89,7 @@
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae, laborum id. Ad accusantium pariatur debitis repudiandae. Corrupti, magni veniam nihil suscipit eos, laborum quas blanditiis recusandae adipisci unde nobis voluptate. Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae, laborum id. Ad accusantium pariatur debitis repudiandae. Corrupti, magni veniam nihil suscipit eos, laborum quas blanditiis recusandae adipisci unde nobis voluptate. Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae, laborum id. Ad accusantium pariatur debitis repudiandae. Corrupti, magni veniam nihil suscipit eos, laborum quas blanditiis recusandae adipisci unde nobis voluptate. Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae, laborum id.</p>
         </section>
         <footer>
-            <p>Created by Laszlo Nemeth &copy; 2022</p>
+            <p>Created by Laszlo Nemeth &copy; 2026</p>
             <ul>
                 <li><a href="index.html" class="home-link">Home</a></li>
                 <li><a href="my-story.html">My Story</a></li>
@@ -102,33 +100,20 @@
                 <li><a href="https://github.com/lac0220" aria-label="Github" rel="noopener noreferrer" target="_blank"><i class="fab fa-github" title="Visit me on Github"></i></a></li> <!-- github -->
             </ul>
         </footer>
-        <div class="loader-animation"</div>
+        <div class="loader-animation"></div>
         <script>
             // home page random quotes
             const randomQuote = async () => {
-                const url ="https://type.fit/api/quotes";    
-                const response = await fetch(url);
-                console.log(typeof response);
-                const allQuotes = await response.json();
-            
-                const text = document.getElementById("quote");
-                const author = document.getElementById("author");
-            
-                //random number between 0 and the length of the quotes array
-                const indx = Math.floor(Math.random()*allQuotes.length);
-            
-                //storing at randomly generated index
-                let quote = allQuotes[indx].text;
-                let auth = allQuotes[indx].author;
-            
-                if (auth == null) {
-                    auth = "Anonymous author";
+                try {
+                    const response = await fetch("https://dummyjson.com/quotes/random");
+                    const data = await response.json();
+
+                    document.getElementById("quote").innerHTML = `"${data.quote}"`;
+                    document.getElementById("author").innerHTML = `- ${data.author}`;
+                } catch (error) {
+                    console.error("Error:", error);
                 }
-            
-                //displaying
-                text.innerHTML = "\"" + quote + "\"";
-                author.innerHTML = "- " + auth;
-            }
+                };
             setInterval(randomQuote, 5000);
             randomQuote();
 

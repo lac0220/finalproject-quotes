@@ -52,6 +52,19 @@ a {
     text-decoration: none;
 }
 
+.highlight {
+    font-weight: bold;
+    background-color: red;
+}
+
+.no-result {
+    padding-top: 20px;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    color: $font-color;
+}
+
 .hyphens {
     hyphens: auto;
     -webkit-hyphens: auto;

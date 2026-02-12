@@ -1,6 +1,12 @@
 # Legendary Quotes - Bootcamp finalproject
 
-The web application uses an API to generate random and daily inspirational quotes. It delivers 5 different quote categories, alphabetical filtering of authors, text-keyword searching between quotes, contact form submission to an email address, and mobile-friendly web design with a navigation bar
+The web application uses an API to generate random and daily inspirational quotes. It provides the user features like:
+
+- 5 different quote categories
+- alphabetical filtering of authors
+- text-keyword searching between quotes
+- contact form submission to an email address
+- mobile-friendly web design with a navigation bar
 
 ## Tech Stack
 
@@ -8,7 +14,7 @@ The web application uses an API to generate random and daily inspirational quote
 - SCSS
 - JavaScript
 
-[API:](https://type.fit/api/quotes) Free API - Inspirational quotes 
+[API:](https://dummyjson.com/quotes) Free API - Quotes 
 
 ## Setup
 
@@ -27,22 +33,17 @@ Please note that first, you need to install the Gulp CLI (command line utility) 
 ## Version
 
 1.0 - 12/05/2022 - Publishing of the website
+1.1 - 12/02/2026 - Replacing API
 
 ## Author
 
 <b>Laszlo Nemeth</b>
 
 <div id="badges">
-    <a href="https://lac0220.github.io/lac0220/">
+    <a href="https://lac0220.github.io/laszlo-nemeth-portfolio">
         <img src="https://img.shields.io/badge/Portfolio-red?style=for-the-badge&logo=logoColor=white" alt="Portfolio Badge"/>
     </a>
     <a href="https://www.linkedin.com/in/nemeth0220">
         <img src="https://img.shields.io/badge/LinkedIn-blue?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn Badge"/>
-    </a>
-    <a href="https://gitlab.com/lac0220">
-        <img src="https://img.shields.io/badge/GitLab-gray?style=for-the-badge&logo=gitlab&logoColor=white" alt="GitLab Badge"/>
-    </a>
-    <a href="https://codepen.io/lac0220/">
-        <img src="https://img.shields.io/badge/Codepen-black?style=for-the-badge&logo=codepen&logoColor=white" alt="Codepen Badge"/>
     </a>
 </div>

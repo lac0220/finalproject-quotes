@@ -73,7 +73,7 @@
                 text-align: center;
                 font-style: italic;
                 font-weight: bold;
-                font-size: 1.6rem;
+                font-size: 1.5rem;
             }
             
             p {
@@ -111,7 +111,7 @@
             width: 70%;
             li {
                 h3 {
-                    font-size: 1.4rem;
+                    font-size: 1.375rem;
                 }
   
                 p {
@@ -168,9 +168,6 @@
         ul li {
             div h2 {
                 line-height: 1.3rem;   
-                font-size: 1.2rem; 
-            font-size: 1.2rem;    
-                font-size: 1.2rem; 
             }
         }
         
@@ -194,7 +191,6 @@
     }
 }
 
-  
 @media only screen and (max-width: 640px) {
   
     .categories {
@@ -218,15 +214,13 @@
         ul li {
             div h2 {
                 padding: 5px;
-                font-size: 1.1rem;
+                font-size: 1.2rem;
             }
         }
         
         &-button {
             font-size: 1.1rem;
             &:hover {
-                background-color: $background-color; 
-            background-color: $background-color; 
                 background-color: $background-color; 
                 &:active {
                     background-color: $hover-color;
@@ -249,4 +243,3 @@
         }
     }
 }
-
