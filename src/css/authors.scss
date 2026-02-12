@@ -124,7 +124,7 @@
             h2 {
                 font-size: 1.2rem; 
             }
-
+            
             li h4 {
                 font-size: 1rem; 
             }
@@ -139,11 +139,17 @@
             font-size: 1rem; 
         }
         
-        &-search li h3:hover {
-            color: $font-color; 
-            &:active {
-                background-color: $hover-color;
+        &-search {
+            h2 {
+                font-size: 1.1rem; 
             }
-        }   
+
+            li h3:hover {
+                color: $font-color; 
+                &:active {
+                    background-color: $hover-color;
+                }
+            } 
+        }  
     }
 }

@@ -33,6 +33,7 @@ Please note that first, you need to install the Gulp CLI (command line utility) 
 ## Version
 
 1.0 - 12/05/2022 - Publishing of the website
+
 1.1 - 12/02/2026 - Replacing API
 
 ## Author
